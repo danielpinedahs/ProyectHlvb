@@ -1,0 +1,27 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model CLIENTS {
+  ID_CLIENT     BigInt    @id @default(autoincrement())
+  PS_SURNAME    String?
+  PS_GIVNAM     String?
+  PS_SEX        String?
+  PS_EMAIL      String?
+  PS_DBIRTH     DateTime? @db.Date
+  PS_COUNTRY    String?
+  PS_HOLD       String?
+  PS_OCOUNTRY   String?
+  PS_RESIDENT   String?
+  PS_RCOUNTRY   String?
+  PS_HOCCOUNTRY String?
+  PS_PASSHOLD   String?
+  PS_IDENTITY   String?
+  PS_SECNUMBER  String?
+  PS_TAXNUMBER  String?
+}

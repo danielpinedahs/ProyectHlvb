@@ -1,0 +1,139 @@
+---
+import "../styles/styleform.css"
+---
+<form id="miFormulario" action="actualizar_registro.php" method="post">
+    <input type="hidden" name="idCLIENTS" value="">
+
+    <div id="seccion1">
+        <h2>Datos Iniciales</h2>
+        <div>
+            <label for="surnames">Surnames</label>
+            <input type="text" id="surnames" name="surnames" placeholder="(e.g., FERNANDEZ GARCIA)" required value="">
+        </div>
+
+        <div>
+            <label for="givenNames">Given Names</label>
+            <input type="text" id="givenNames" name="givenNames" placeholder="(e.g., JUAN MIGUEL)"  required value="">
+        </div>
+
+        <div>
+            <label for="fullNameNative">Full Name in Native Alphabet</label>
+            <input type="text" id="fullNameNative" name="fullNameNative" value="">
+            <label>
+                <input type="checkbox" name="nativeAlphabetNotApplicable" value="true"> Does Not Apply/Technology Not Available
+            </label>
+        </div>
+
+        <div class="radio-group">
+            <p>Have you ever used other names (i.e. maiden, religious, professional, alias, etc.)?</p>
+            <div class="radio-options" >
+                <label><input type="radio" name="othName1" value="YES" required> Yes</label>
+                <label><input type="radio" name="othName1" value="NO" required> No</label>
+            </div>
+        </div>
+
+        <div id="otherNamesFields" style="display: none;">
+            <div>
+                <label for="otherSurname">Other Surname</label>
+                <input type="text" id="otherSurname" name="otherSurname" required>
+            </div>
+            <div>
+                <label for="otherGivenName">Other Given Name</label>
+                <input type="text" id="otherGivenName" name="otherGivenName" required>
+            </div>
+        </div>
+
+        <div class="radio-group">
+            <p>Do you have a telecode that represents your name?</p>
+            <div class="radio-options" >
+                <label><input type="radio" name="telecode" value="YES" required > Yes</label>
+                <label><input type="radio" name="telecode" value="NO" required  > No</label>
+            </div>
+        </div>
+
+        <div>
+            <label for="sex">Sex</label>
+            <select id="sex" name="sex" required>
+                <option value="" disabled >- SELECT ONE -</option>
+                <option value="male" >Male</option>
+                <option value="female" >Female</option>
+                <option value="other" >Other</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="maritalStatus">Marital Status</label>
+            <select id="maritalStatus" name="maritalStatus" required>
+                <option value="" disabled >- SELECT ONE -</option>
+                <option value="single" >Single</option>
+                <option value="married" >Married</option>
+                <option value="divorced" >Divorced</option>
+                <option value="widowed" >Widowed</option>
+                <option value="separated" >Separated</option>
+            </select>
+        </div> 
+
+        <div>
+            <label for="correo">Correo</label>
+            <input type="email" id="correo" name="correo" placeholder="(e.g., contact@hlvb.com)" required value="">
+        </div>
+
+        <fieldset>
+            <legend>Date and Place of Birth</legend>
+            <div>
+                <label for="birthDate">Date</label>
+                <input type="date" id="birthDate" name="birthDate" placeholder="DD-MMM-YYYY" required value="">
+                <small>(Format: DD-MMM-YYYY)</small>
+            </div>
+            <div>
+                <label for="birthCity">City</label>
+                <input type="text" id="birthCity" name="birthCity" required value="" required>
+            </div>
+            <div>
+                <label for="birthStateProvince">State/Province</label>
+                <input type="text" id="birthStateProvince" name="birthStateProvince" required value="">
+                <label>
+                    <input type="checkbox" name="stateProvinceNotApplicable" value="true" > Does Not Apply
+                </label>
+            </div>
+            <div>
+                <label for="birthCountryRegion">Country/Region</label>
+                <select id="birthCountryRegion" name="birthCountryRegion" required>
+                    <option value="" disabled >- SELECT ONE -</option>
+                    <option value="COLOMBIA" >COLOMBIA</option>
+                    </select>
+            </div>
+        </fieldset>
+        <div class="radio-group">
+            <p>Do you hold or have you held any nationality other than the one indicated above?</p>
+            <div class="radio-options" >
+                <label><input type="radio" name="ps_hold" value="YES" required> Yes</label>
+                <label><input type="radio" name="ps_hold" value="NO" required> No</label>
+            </div>
+        </div>
+
+        <div class="radio-group">
+            <p>Are you a permanent resident of a country/region other than your country/region of origin (nationality) indicated above?</p>
+            <div class="radio-options" >
+                <label><input type="radio" name="ps_resident" value="YES" required> Yes</label>
+                <label><input type="radio" name="ps_resident" value="NO" required> No</label>
+            </div>
+        </div>
+
+        <div>
+            <label for="ps_identity">National Identification Number(DNA)</label>
+            <input type="text" id="ps_identity" name="ps_identity" required>
+        </div>
+
+        <div>
+            <label for="ps_secnumber">U.S. Social Security Number (DNA)</label>
+            <input type="text" id="ps_secnumber" name="ps_secnumber" required>
+        </div>
+
+        <div>
+            <label for="ps_taxnumber">U.S. Taxpayer ID Number(DNA)</label>
+            <input type="text" id="ps_taxnumber" name="ps_taxnumber" required>
+        </div>
+        </div>
+        <button type="submit">Save and Continue</button>
+</form>

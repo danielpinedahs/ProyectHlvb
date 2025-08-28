@@ -1,0 +1,74 @@
+---
+import { PrismaClient } from "@prisma/client";
+import Personal from "../components/personal-info.astro";
+
+// Lógica para obtener los parámetros de la URL
+const url = new URL(Astro.request.url);
+const ps_surname = url.searchParams.get("ps_surname") || "";
+const ps_givnam = url.searchParams.get("ps_givnam") || "";
+const ps_sex = url.searchParams.get("ps_sex") || "";
+const ps_email = url.searchParams.get("ps_email") || "";
+const ps_dbirth = url.searchParams.get("ps_dbirth") || "";
+const id = url.searchParams.get("id") || "";
+
+let clientData = null;
+if (id) {
+    const prisma = new PrismaClient();
+    clientData = await prisma.cLIENTS.findUnique({
+        where: { ID_CLIENT: Number(id) }
+    });
+    await prisma.$disconnect();
+}
+---
+
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Formulario Completo</title>
+  </head>
+  <body>
+    <h1>Formulario Completo de Clientes</h1>
+    
+    <p>¡El cliente ya existe! Por favor, actualiza los demás campos o inserta nuevos.</p>
+    
+    <form method="POST" action="/api/clientes-actualizar">
+      <input type="hidden" name="id" value={id} />
+
+      <label>Apellido:</label>
+      <input type="text" name="ps_surname" value={clientData?.PS_SURNAME || ps_surname} required />
+
+      <label>Nombre:</label>
+      <input type="text" name="ps_givnam" value={clientData?.PS_GIVNAM || ps_givnam} required />
+
+      <label>Sexo:</label>
+      <select name="ps_sex" required>
+        <option value={clientData?.PS_SEX || ps_sex}>{clientData?.PS_SEX || ps_sex}</option>
+        <option value="M">Masculino</option>
+        <option value="F">Femenino</option>
+      </select>
+
+      <label>Email:</label>
+      <input type="email" name="ps_email" value={clientData?.PS_EMAIL || ps_email} required />
+      
+      <fieldset> 
+        <legend>Date of Birth</legend> 
+        <div> 
+          <label for="ps_dbirth">Date</label> 
+          <input 
+  type="date" 
+  id="ps_dbirth" 
+  name="ps_dbirth" 
+  value={clientData?.PS_DBIRTH?.toISOString().split('T')[0] || ps_dbirth} 
+  required 
+/>
+          <small>(Format: DD-MMM-YYYY)</small> 
+        </div> 
+      </fieldset>
+
+      <label>País:</label>
+      <input type="text" name="ps_country" value={clientData?.PS_COUNTRY || ""}>
+      
+      <button type="submit">Actualizar/Insertar</button>
+    </form>
+  </body>
+</html>

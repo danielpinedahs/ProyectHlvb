@@ -1,0 +1,188 @@
+---
+import "../styles/style.css";
+import PersonalInfo from "../components/personal-info.astro";
+import Family from "../components/family-info.astro";
+import Passport from "../components/family-info.astro";
+import Address from "../components/address-info.astro";
+import AddWork from "../components/addwork-info.astro";
+import PstnWork from "../components/pres-work.astro";
+import PrvWork from "../components/prev-work.astro";
+import Travel from "../components/travel-info.astro";
+import Security from "../components/security-info.astro";
+---
+
+<script>
+    const menu = document.getElementById("menu");
+    const sidebar = document.getElementById("sidebar");
+    const main = document.getElementById("main");
+
+    menu?.addEventListener("click", () => {
+        sidebar?.classList.toggle("menu-toggle");
+        menu.classList.toggle("menu-toggle");
+        main?.classList.toggle("menu-toggle");
+    });
+
+     document.querySelectorAll("#sidebar a").forEach(link => {
+    link.addEventListener("click", (e) => {
+      e.preventDefault();
+
+      // Ocultar todos los sections
+      document.querySelectorAll("main .content").forEach(sec => {
+        sec.classList.add("hidden");
+        sec.classList.remove("active");
+      });
+
+      // Buscar el texto del <span> de este link
+      const span = link.querySelector("span");
+      if (!span) return; // seguridad
+
+      // Crear el id esperado (ej: "PERSONAL INFO" -> "personalinfo")
+      const target = span.innerText.toLowerCase().replace(/\s+/g, "");
+      const section = document.getElementById(target);
+
+      if (section) {
+        section.classList.remove("hidden");
+        section.classList.add("active");
+      }
+
+      // Opcional: resaltar item activo
+      document.querySelectorAll("#sidebar a").forEach(a => a.classList.remove("selected"));
+      link.classList.add("selected");
+    });
+  });
+
+</script>
+
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <title>DS160 Form</title>
+    </head>
+    <header>
+        <div class="left">
+            <div class="menu-container">
+                <div class="menu" id="menu">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            </div>
+            <div class="brand">
+                <img src="../HLVBlogo.png" alt="icon-hlvb" class="logo" />
+                <span class="name">FORM DS160 HLVB</span>
+            </div>
+        </div>
+        <div class="right">
+            <a href="/personal" class="icons-header">
+                <img src="../personal.svg" alt="chat" />
+            </a>
+            <a href="#" class="icons-header">
+                <img src="../personal.svg" alt="question" />
+            </a>
+            <a href="#" class="icons-header">
+                <img src="../personal.svg" alt="notification" />
+            </a>
+            <img src="../personal.svg" alt="img-user" class="user" />
+        </div>
+    </header>
+    <body>
+        <div class="sidebar" id="sidebar">
+            <nav>
+                <ul>
+                    <li>
+                        <a href="#" class="selected">
+                            <img src="../personal.svg" alt="" />
+                            <span>PERSONAL INFO</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <img src="../travel.svg" alt="" />
+                            <span>TRAVEL INFO</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <img src="../address.svg" alt="" />
+                            <span>ADDRESS INFO</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <img src="../passport.svg" alt="" />
+                            <span>PASSPORT INFO</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <img src="../family.svg" alt="" />
+                            <span>FAMILY INFO</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <img src="../work.svg" alt="" />
+                            <span>PRESENT WORK</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <img src="../work.svg" alt="" />
+                            <span>PREVIOUS WORK</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <img src="../work.svg" alt="" />
+                            <span>ADITIONAL WORK</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <img src="../security.svg" alt="" />
+                            <span>SECURITY INFO</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <main id="main">
+            <section id="personalinfo" class="content active">
+                <PersonalInfo />
+            </section>
+
+            <section id="travelinfo" class="content hidden">
+                <Travel />
+            </section>
+
+            <section id="addressinfo" class="content hidden">
+                <Address />
+            </section>
+
+            <section id="passportinfo" class="content hidden">
+                <Passport />
+            </section>
+
+            <section id="familyinfo" class="content hidden">
+                <Family />
+            </section>
+
+            <section id="presentwork" class="content hidden">
+                <PstnWork />
+            </section>
+
+            <section id="previouswork" class="content hidden">
+                <PrvWork />
+            </section>
+
+            <section id="aditionalwork" class="content hidden">
+                <AddWork />
+            </section>
+
+            <section id="securityinfo" class="content hidden">
+                <Security />
+            </section>
+        </main>
+    </body>
+
+</html>

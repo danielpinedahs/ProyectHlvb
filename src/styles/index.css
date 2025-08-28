@@ -1,0 +1,99 @@
+body {
+    margin: 0;
+    font-family: avenir;
+}
+
+.container {
+    display: flex;
+    height: 611px;
+}
+
+.left-panel {
+    background-color: #0C1343;
+}
+
+.right-panel {
+    background-color: #e2d6b7;
+}
+
+.left-panel, .right-panel {
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+form {
+    width: 90%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.image-stack {
+    position: relative;
+    width: 500px; /* Ajusta al tamaño que necesites */
+    height: 500px;
+}
+
+.imagen-base {
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    object-fit: cover; /* Ajusta según necesites */
+    z-index: 1;
+}
+
+.objetfit > img{
+	width: 200px;
+	height: 200px;
+	object-fit: none;
+	background-color: black;
+	border: 3px solid #ff9daa;
+}
+
+.imagen-superpuesta {
+    position: absolute;
+    top: 0; /* Ajusta según lo que quieras */
+    right: 0;
+    width: 900px;
+    height: auto;
+    z-index: 2;
+}
+
+.inline-fields {
+    display: flex;
+    flex-direction: column;  /* apila los .field verticalmente */
+    gap: 1em;                /* espacio entre cada campo */
+  }
+  
+  /* cada campo ocupa todo el ancho disponible */
+  .inline-fields .field {
+    width: 100%;
+    max-width: 400px;        /* opcional, para limitarlo */
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* inputs/select llenan el ancho del .field */
+  .inline-fields .field input,
+  .inline-fields .field select {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+.button {
+    color: #0c1343 !important; 
+    letter-spacing: 1px; 
+    font-size: 16px; 
+    text-transform: uppercase !important;
+    font-weight: 500;
+    padding: .3em 1em;
+    line-height: 1.7em !important;
+    background-color: transparent;
+    background-size: cover;
+    background-position: 50%;
+    background-repeat: no-repeat;
+    border: 2px solid;border-radius: 3px;
+}

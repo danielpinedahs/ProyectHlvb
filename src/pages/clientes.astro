@@ -1,0 +1,40 @@
+---
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
+const clientes = await prisma.cLIENTS.findMany();
+await prisma.$disconnect();
+---
+
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Listado de Clientes</title>
+  </head>
+  <body>
+    <h1>Listado de Clientes</h1>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Apellido</th>
+          <th>Nombre</th>
+          <th>Sexo</th>
+          <th>Email</th>
+        </tr>
+      </thead>
+      <tbody>
+        {clientes.map((c) => (
+          <tr>
+            <td>{c.PS_SURNAME}</td>
+            <td>{c.PS_GIVNAM}</td>
+            <td>{c.PS_SEX}</td>
+            <td>{c.PS_EMAIL}</td>
+            <td>{c.PS_DBIRTH}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+
+    <a href="/">← Volver al formulario</a>
+  </body>
+</html>

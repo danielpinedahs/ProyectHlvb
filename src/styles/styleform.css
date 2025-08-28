@@ -1,0 +1,91 @@
+/* estilos_formulario.css */
+
+body {
+    font-family: avenir;
+    background-color: #e2d6b7;
+    align-items: center;
+}
+
+#miFormulario {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 1000px;
+}
+
+#miFormulario div {
+    margin-bottom: 15px;
+}
+
+#miFormulario label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+#miFormulario input[type="text"],
+#miFormulario input[type="email"],
+#miFormulario input[type="date"],
+#miFormulario select {
+    width: calc(100% - 12px); /* Ajuste para el padding */
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box; /* Importante para el ancho */
+}
+
+#miFormulario input[type="checkbox"],
+#miFormulario input[type="radio"] {
+    margin-right: 5px;
+}
+
+#miFormulario fieldset {
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 4px;
+    margin-bottom: 15px;
+}
+
+#miFormulario legend {
+    font-weight: bold;
+    padding: 0 10px;
+}
+
+#miFormulario button[type="submit"] {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+#miFormulario button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+#miFormulario small {
+    display: block;
+    color: #777;
+    margin-top: 5px;
+}
+
+.radio-group {
+    margin-bottom: 15px;
+  }
+  
+  .radio-options {
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+    align-items: center;
+  }
+  
+  .radio-options label {
+    display: inline-flex !important;
+    align-items: center;
+    font-weight: normal;
+  }
+  
