@@ -1,67 +1,41 @@
 ---
-import { PrismaClient } from "@prisma/client";
-import Header from "../components/Header.astro";
-import Footer from "../components/Footer.astro";
-import '../styles/index.css'
-
-const prisma = new PrismaClient();
-// Leer clientes solo si necesitas mostrarlos en el index
-const clientes = await prisma.cLIENTS.findMany();
-await prisma.$disconnect();
+import BaseLayout from "../layouts/BaseLayout.astro";
 ---
 
-<html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Formulario Clientes</title>
-  </head>
-  <header>
-      <Header />
-  </header>
-  <body>
-    <div class="container">
-      <div class="left-panel">
-        <div class="image-stack">
-                <img src="../HOME.gif" alt="Imagen base" class="imagen-base">
-                <img src="../HLVB-LOGO-04.png" alt="Imagen superpuesta" class="imagen-superpuesta">
-        </div>
-      </div>
-      <div class="right-panel">
-        <form method="POST" action="/api/clientes">
-          <label>Apellido:</label>
-          <input type="text" name="ps_surname" required />
-
-          <label>Nombre:</label>
-          <input type="text" name="ps_givnam" required />
-
-          <label>Sexo:</label>
-          <select name="ps_sex" required>
-            <option value="">Seleccione</option>
-            <option value="M">Masculino</option>
-            <option value="F">Femenino</option>
-          </select>
-
-          <label>Email:</label>
-          <input type="email" name="ps_email" required />
-
-          <fieldset> 
-            <legend>Date of Birth</legend> 
-            <div> 
-              <label for="ps_dbirth">Date</label> 
-              <input type="date" id="ps_dbirth" name="ps_dbirth" placeholder="DD-MMM-YYYY" required> 
-              <small>(Format: DD-MMM-YYYY)</small> 
-            </div> 
-          </fieldset>
-          
-            <button type="submit" style="display: inline-block; padding: 10px 20px; background-color: #e2d6b7;color: #191970; 
-              border: 2px solid #191970; border-radius: 5px; font-weight: bold; text-decoration: none; 
-              color: #0c1343 !important; letter-spacing: 1px; font-size: 16px; 
-            text-transform: uppercase !important;font-weight: 500;padding: .3em 1em;line-height: 1.7em !important;
-            background-color: transparent;background-size: cover;background-position: 50%;background-repeat: no-repeat;
-            border: 2px solid;border-radius: 3px;cursor: pointer;">Guardar</button>
-        </form>
+<BaseLayout title="Formulario Clientes">
+  <div class="container">
+    <div class="left-panel">
+      <div class="image-stack">
+        <img src="../HOME.gif" alt="Imagen base" class="imagen-base" />
+        <img src="../HLVB-LOGO-04.png" alt="Imagen superpuesta" class="imagen-superpuesta" />
       </div>
     </div>
-    <Footer />
-  </body>
-</html>
+    <div class="right-panel">
+      <form method="POST" action="/api/clientes">
+        <label for="ps_surname">Apellido:</label>
+        <input type="text" id="ps_surname" name="ps_surname" required />
+
+        <label for="ps_givnam">Nombre:</label>
+        <input type="text" id="ps_givnam" name="ps_givnam" required />
+
+        <label for="ps_sex">Sexo:</label>
+        <select id="ps_sex" name="ps_sex" required>
+          <option value="">Seleccione</option>
+          <option value="M">Masculino</option>
+          <option value="F">Femenino</option>
+        </select>
+
+        <label for="ps_email">Email:</label>
+        <input type="email" id="ps_email" name="ps_email" required />
+
+        <fieldset>
+          <legend>Fecha de nacimiento</legend>
+          <label for="ps_dbirth">Fecha:</label>
+          <input type="date" id="ps_dbirth" name="ps_dbirth" required />
+        </fieldset>
+
+        <button type="submit" class="boton-guardar">Guardar</button>
+      </form>
+    </div>
+  </div>
+</BaseLayout>

@@ -1,5 +1,5 @@
-// src/pages/api/clientes.ts
 export const prerender = false;
+
 import type { APIRoute } from "astro";
 import { PrismaClient } from "@prisma/client";
 
@@ -14,7 +14,6 @@ export const POST: APIRoute = async ({ request, redirect }) => {
   const ps_email = data.get("ps_email") as string;
   const ps_dbirth = data.get("ps_dbirth") as string;
 
-  // 1. Buscar si el cliente ya existe
   try {
     const existingClient = await prisma.cLIENTS.findFirst({
       where: {
@@ -26,38 +25,23 @@ export const POST: APIRoute = async ({ request, redirect }) => {
       },
     });
 
-    if (existingClient) {
-      // 2. Si existe, redirigir a la página del formulario completo,
-      //    pasando los datos como parámetros de la URL.
-      //    Esto se llama una redirección con query parameters.
-      const queryString = new URLSearchParams({
-        ps_surname,
-        ps_givnam,
-        ps_sex,
-        ps_email,
-        ps_dbirth,
-        id: String(existingClient.ID_CLIENT), // Pasa el ID del cliente para futuras actualizaciones
-      }).toString();
+    const clientID =
+      existingClient?.ID_CLIENT ??
+      (
+        await prisma.cLIENTS.create({
+          data: {
+            PS_SURNAME: ps_surname,
+            PS_GIVNAM: ps_givnam,
+            PS_SEX: ps_sex,
+            PS_EMAIL: ps_email,
+            PS_DBIRTH: new Date(ps_dbirth),
+          },
+        })
+      ).ID_CLIENT;
 
-      return redirect(`/form-ds160?${queryString}`);
-    }
-
-    // 3. Si no existe, crear el nuevo registro
-    const newClient = await prisma.cLIENTS.create({
-      data: {
-        PS_SURNAME: ps_surname,
-        PS_GIVNAM: ps_givnam,
-        PS_SEX: ps_sex,
-        PS_EMAIL: ps_email,
-        PS_DBIRTH: new Date(ps_dbirth),
-      },
-    });
-    console.log("Nuevo cliente creado:", newClient);
-
-    // Redirige a la página del formulario completo con el nuevo ID
-    return redirect(`/form-ds160?id=${newClient.ID_CLIENT}`);
+    return redirect(`/form-ds160?id=${clientID}`);
   } catch (error) {
-    console.error("Error al procesar la solicitud:", error);
+    console.error("Error al procesar el formulario:", error);
     return new Response(
       JSON.stringify({ message: "Error interno del servidor." }),
       { status: 500 }
