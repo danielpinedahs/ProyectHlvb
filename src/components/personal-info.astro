@@ -1,22 +1,38 @@
 ---
+export const prerender = false;
+
 import "../styles/styleform.css"
+
+import { prisma } from "../lib/prisma";
+
+
+const url = new URL(Astro.request.url);
+const id = url.searchParams.get("id") || "";
+
+const clientData = id
+  ? await prisma.cLIENTS.findUnique({
+      where: { ID_CLIENT: Number(id) }
+    })
+  : null;
 ---
-<form id="miFormulario" action="actualizar_registro.php" method="post">
-    <input type="hidden" name="idCLIENTS" value="">
-
-    <div id="seccion1">
-        <h2>Datos Iniciales</h2>
-        <div>
+<h2>PERSONAL INFORMATION</h2>
+<form id="miFormulario" action="/api/clientes-actualizar" method="POST">
+    <input type="hidden" name="id" value={id}>
+    
+    <div class="form-row">
+        <div class="form-field">
             <label for="surnames">Surnames</label>
-            <input type="text" id="surnames" name="surnames" placeholder="(e.g., FERNANDEZ GARCIA)" required value="">
+            <input type="text" name="ps_surname" value={clientData?.PS_SURNAME || ""} required >
         </div>
 
-        <div>
+        <div class="form-field">
             <label for="givenNames">Given Names</label>
-            <input type="text" id="givenNames" name="givenNames" placeholder="(e.g., JUAN MIGUEL)"  required value="">
+            <input type="text" name="ps_givnam" value={clientData?.PS_GIVNAM || ""} required>
         </div>
+    </div>
 
-        <div>
+    <div class="form-row">
+        <div class="form-field">
             <label for="fullNameNative">Full Name in Native Alphabet</label>
             <input type="text" id="fullNameNative" name="fullNameNative" value="">
             <label>
@@ -24,44 +40,40 @@ import "../styles/styleform.css"
             </label>
         </div>
 
-        <div class="radio-group">
+        <div class="form-field">
+            <label for="sex">Sex</label>
+            <select id="ps_sex" name="ps_sex" required>
+                <option value="" disabled >- SELECT ONE -</option>
+                <option value="M" selected={clientData?.PS_SEX === "M"}>Male</option>
+                <option value="F" selected={clientData?.PS_SEX === "F"}>Female</option>
+                <option value="O" selected={clientData?.PS_SEX === "O"}>Other</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-field">  
             <p>Have you ever used other names (i.e. maiden, religious, professional, alias, etc.)?</p>
             <div class="radio-options" >
                 <label><input type="radio" name="othName1" value="YES" required> Yes</label>
                 <label><input type="radio" name="othName1" value="NO" required> No</label>
             </div>
-        </div>
-
-        <div id="otherNamesFields" style="display: none;">
-            <div>
-                <label for="otherSurname">Other Surname</label>
-                <input type="text" id="otherSurname" name="otherSurname" required>
-            </div>
-            <div>
-                <label for="otherGivenName">Other Given Name</label>
-                <input type="text" id="otherGivenName" name="otherGivenName" required>
-            </div>
-        </div>
-
-        <div class="radio-group">
+            
+    </div>        
+    
+        <div class="form-field">
+            <div class="radio-group">
             <p>Do you have a telecode that represents your name?</p>
             <div class="radio-options" >
                 <label><input type="radio" name="telecode" value="YES" required > Yes</label>
                 <label><input type="radio" name="telecode" value="NO" required  > No</label>
             </div>
         </div>
-
-        <div>
-            <label for="sex">Sex</label>
-            <select id="sex" name="sex" required>
-                <option value="" disabled >- SELECT ONE -</option>
-                <option value="male" >Male</option>
-                <option value="female" >Female</option>
-                <option value="other" >Other</option>
-            </select>
         </div>
+    </div>
 
-        <div>
+    <div class="form-row">
+        <div class="form-field">
             <label for="maritalStatus">Marital Status</label>
             <select id="maritalStatus" name="maritalStatus" required>
                 <option value="" disabled >- SELECT ONE -</option>
@@ -71,69 +83,89 @@ import "../styles/styleform.css"
                 <option value="widowed" >Widowed</option>
                 <option value="separated" >Separated</option>
             </select>
-        </div> 
-
-        <div>
-            <label for="correo">Correo</label>
-            <input type="email" id="correo" name="correo" placeholder="(e.g., contact@hlvb.com)" required value="">
         </div>
+        <div class="form-field">
+            <label for="correo">Email:</label>
+            <input type="email" id="ps_email" name="ps_email" value={clientData?.PS_EMAIL || ""} required>
+        </div>
+    </div>
 
-        <fieldset>
-            <legend>Date and Place of Birth</legend>
-            <div>
-                <label for="birthDate">Date</label>
-                <input type="date" id="birthDate" name="birthDate" placeholder="DD-MMM-YYYY" required value="">
-                <small>(Format: DD-MMM-YYYY)</small>
-            </div>
-            <div>
-                <label for="birthCity">City</label>
-                <input type="text" id="birthCity" name="birthCity" required value="" required>
-            </div>
-            <div>
-                <label for="birthStateProvince">State/Province</label>
+    <h3>Date and Place of Birth</h3>
+
+    <div class="form-row">
+        <div class="form-field">
+            <label for="birthDate">Date</label>
+                <input
+                    type="date"
+                    id="ps_dbirth"
+                    name="ps_dbirth"
+                    value={clientData?.PS_DBIRTH?.toISOString().split("T")[0] || ""}
+                    required
+                />
+        </div>
+            
+        <div class="form-field">
+            <label for="birthCity">City</label>
+            <input type="text" id="birthCity" name="birthCity" required value="" required>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-field">
+            <label for="birthStateProvince">State/Province</label>
                 <input type="text" id="birthStateProvince" name="birthStateProvince" required value="">
                 <label>
                     <input type="checkbox" name="stateProvinceNotApplicable" value="true" > Does Not Apply
                 </label>
-            </div>
-            <div>
-                <label for="birthCountryRegion">Country/Region</label>
+        </div>
+        <div class="form-field">
+            <label for="birthCountryRegion">Country/Region</label>
                 <select id="birthCountryRegion" name="birthCountryRegion" required>
                     <option value="" disabled >- SELECT ONE -</option>
                     <option value="COLOMBIA" >COLOMBIA</option>
                     </select>
-            </div>
-        </fieldset>
-        <div class="radio-group">
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-field">
             <p>Do you hold or have you held any nationality other than the one indicated above?</p>
             <div class="radio-options" >
                 <label><input type="radio" name="ps_hold" value="YES" required> Yes</label>
                 <label><input type="radio" name="ps_hold" value="NO" required> No</label>
             </div>
-        </div>
-
-        <div class="radio-group">
+        </div>    
+        <div class="form-field">
             <p>Are you a permanent resident of a country/region other than your country/region of origin (nationality) indicated above?</p>
             <div class="radio-options" >
                 <label><input type="radio" name="ps_resident" value="YES" required> Yes</label>
                 <label><input type="radio" name="ps_resident" value="NO" required> No</label>
             </div>
         </div>
+    </div>       
 
-        <div>
+
+    <div class="form-row">
+        <div class="form-field">
             <label for="ps_identity">National Identification Number(DNA)</label>
             <input type="text" id="ps_identity" name="ps_identity" required>
-        </div>
-
-        <div>
+        </div>    
+        <div class="form-field">
             <label for="ps_secnumber">U.S. Social Security Number (DNA)</label>
             <input type="text" id="ps_secnumber" name="ps_secnumber" required>
         </div>
+    </div> 
 
-        <div>
+    <div class="form-row">
+        <div class="form-field">
             <label for="ps_taxnumber">U.S. Taxpayer ID Number(DNA)</label>
             <input type="text" id="ps_taxnumber" name="ps_taxnumber" required>
+        </div>    
+        <div class="form-field">
+            
         </div>
-        </div>
-        <button type="submit">Save and Continue</button>
+    </div> 
+
+<button type="submit">Save and Continue</button>
+        
 </form>

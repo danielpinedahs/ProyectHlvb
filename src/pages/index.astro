@@ -11,30 +11,22 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       </div>
     </div>
     <div class="right-panel">
-      <form method="POST" action="/api/clientes">
-        <label for="ps_surname">Apellido:</label>
-        <input type="text" id="ps_surname" name="ps_surname" required />
+      <form method="POST" action="/api/clients">
+        <input type="text" id="ps_surname" name="ps_surname" placeholder="SURNAMES (e.g., FERNANDEZ GARCIA)" required />
+        <input type="text" id="ps_givnam" name="ps_givnam" placeholder="GIVEN NAMES(e.g., JUAN MIGUEL)" required />
 
-        <label for="ps_givnam">Nombre:</label>
-        <input type="text" id="ps_givnam" name="ps_givnam" required />
-
-        <label for="ps_sex">Sexo:</label>
         <select id="ps_sex" name="ps_sex" required>
-          <option value="">Seleccione</option>
-          <option value="M">Masculino</option>
-          <option value="F">Femenino</option>
+          <option value="">-- SEX --</option>
+          <option value="M">MALE</option>
+          <option value="F">FEMALE</option>
+          <option value="O">OTHER</option>
         </select>
 
-        <label for="ps_email">Email:</label>
-        <input type="email" id="ps_email" name="ps_email" required />
+        <input type="email" id="ps_email" name="ps_email" placeholder="EMAIL (e.g., contact@hlvb.com)" required />
+        <label for="ps_dbirth">DATE OF BIRTH</label>
+        <input type="date" id="ps_dbirth" name="ps_dbirth" required/>
 
-        <fieldset>
-          <legend>Fecha de nacimiento</legend>
-          <label for="ps_dbirth">Fecha:</label>
-          <input type="date" id="ps_dbirth" name="ps_dbirth" required />
-        </fieldset>
-
-        <button type="submit" class="boton-guardar">Guardar</button>
+        <button type="submit" class="boton-guardar">CONTINUE</button>
       </form>
     </div>
   </div>

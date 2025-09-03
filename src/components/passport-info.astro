@@ -1,83 +1,80 @@
 ---
 import "../styles/styleform.css"
 ---
+<h2>Passport/Travel Document Information</h2>
 <form id="miFormulario" action="#" method="post">
         
-        <h2>Passport/Travel Document Information</h2>
-
-        <div>
+        
+    <div class="form-row">
+        <div class="form-field">
             <label for="passportType">Passport/Travel Document Type</label>
             <input type="text" id="passportType" name="passportType">
-        </div>
-
-        <div>
+        </div>    
+        <div class="form-field">
             <label for="passportNumber">Passport/Travel Document Number</label>
             <input type="text" id="passportNumber" name="passportNumber">
-        </div>
-        
-        <div>
+        </div>   
+    </div>    
+    <div class="form-row">
+        <div class="form-field">
             <label for="passportBookNumber">Passport Book Number</label>
             <input type="text" id="passportBookNumber" name="passportBookNumber">
-        </div>
-        
-        <div>
+        </div>    
+        <div class="form-field">
             <label for="issuingCountry">Country/Authority that Issued</label>
             <input type="text" id="issuingCountry" name="issuingCountry">
-        </div>
-
-        <div>
-            <label for="whereIssued">Where was the Passport/Travel Document Issued?</label>
+        </div>   
+    </div>    
+    <div class="form-row">
+        <div class="form-field">
+           <label for="whereIssued">Where was the Passport/Travel Document Issued?</label>
             <input type="text" id="whereIssued" name="whereIssued">
-        </div>
-
-        <div>
+        </div>    
+        <div class="form-field">
             <label for="cityIssued">City</label>
             <input type="text" id="cityIssued" name="cityIssued">
-        </div>
-
-        <div>
-            <label for="stateProvinceIssued">State/Province *If show on passport</label>
+        </div>   
+    </div>  
+    <div class="form-row">
+        <div class="form-field">
+           <label for="stateProvinceIssued">State/Province *If show on passport</label>
             <input type="text" id="stateProvinceIssued" name="stateProvinceIssued">
-        </div>
-        
-        <div>
+        </div>    
+        <div class="form-field">
             <label for="countryRegionIssued">Country/Region</label>
             <input type="text" id="countryRegionIssued" name="countryRegionIssued">
-        </div>
-
-        <div>
-            <label for="issuanceDate">Issuance Date [mm/dd/yyyy]</label>
+        </div>   
+    </div>  
+    <div class="form-row">
+        <div class="form-field">
+           <label for="issuanceDate">Issuance Date [mm/dd/yyyy]</label>
             <input type="text" id="issuanceDate" name="issuanceDate">
-        </div>
-
-        <div>
+        </div>    
+        <div class="form-field">
             <label for="expirationDate">Expiration Date [mm/dd/yyyy]</label>
             <input type="text" id="expirationDate" name="expirationDate">
-        </div>
-        
-        <hr>
-
-        <h2>Lost Passport</h2>
-
-        <div>
-            <label for="lostPassport">Have you ever lost a passport or had one?</label>
+        </div>   
+    </div>  
+<h3>Lost Passport</h3>    
+    <div class="form-row">
+        <div class="form-field">
+           <label for="lostPassport">Have you ever lost a passport or had one?</label>
             <input type="text" id="lostPassport" name="lostPassport">
-        </div>
-
-        <div>
+        </div>    
+        <div class="form-field">
             <label for="lostPassportNumber">Passport/Travel Document Number</label>
             <input type="text" id="lostPassportNumber" name="lostPassportNumber">
-        </div>
-        
-        <div>
-            <label for="lostIssuingCountry">Country/Authority that Issued</label>
+        </div>   
+    </div>  
+    <div class="form-row">
+        <div class="form-field">
+           <label for="lostIssuingCountry">Country/Authority that Issued</label>
             <input type="text" id="lostIssuingCountry" name="lostIssuingCountry">
-        </div>
-        
-        <div>
+        </div>    
+        <div class="form-field">
             <label for="explainLostPassport">Explain</label>
             <input type="text" id="explainLostPassport" name="explainLostPassport">
-        </div>
-
-        <button type="submit">Submit</button>
+        </div>   
+    </div>  
+        <button type="submit">Save and Continue</button>
 </form>

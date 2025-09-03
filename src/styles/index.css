@@ -1,6 +1,16 @@
+@font-face {
+      font-family: 'ExtraBoldAlt';
+      src: url('../fonts/AkzidenzGrotesk-ExtraBoldAlt.otf') format('opentype');
+      }
+
+@font-face {
+      font-family: 'BoldCondItalicAlt';
+      src: url('../fonts/AkzidenzGrotesk-ExtraBoldCondItalicAlt.otf') format('opentype');
+    }
+
+
 body {
-  margin: 0;
-  font-family: avenir;
+  margin: 0;  
 }
 
 .container {
@@ -32,6 +42,37 @@ form {
   gap: 1em;
 }
 
+form label{
+  font-family: 'ExtraBoldAlt', Arial, Helvetica, sans-serif;
+}
+
+form input,select{
+  font-family: 'BoldCondItalicAlt', Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  padding: 16px;
+  border-width: 0;
+  text-transform: uppercase !important;
+}
+
+form button{
+  color: #000000 !important;
+  font-size: 20px;
+  font-family: 'ExtraBoldAlt', Arial, Helvetica, sans-serif;
+  border-width: 2px !important;
+  letter-spacing: 1px;
+  background-color: transparent;
+  border: 2px solid;
+  border-radius: 3px;
+  font-weight: 500;
+  padding: 0.3em 1em;
+  line-height: 1.7em !important;
+  text-transform: uppercase !important;
+  background-size: cover;
+  background-position: 50%;
+  background-repeat: no-repeat;
+
+}
+
 .image-stack {
   position: relative;
   width: 500px; /* Ajusta al tamaño que necesites */
@@ -61,41 +102,4 @@ form {
   width: 900px;
   height: auto;
   z-index: 2;
-}
-
-.inline-fields {
-  display: flex;
-  flex-direction: column; /* apila los .field verticalmente */
-  gap: 1em; /* espacio entre cada campo */
-}
-
-/* cada campo ocupa todo el ancho disponible */
-.inline-fields .field {
-  width: 100%;
-  max-width: 400px; /* opcional, para limitarlo */
-  display: flex;
-  flex-direction: column;
-}
-
-/* inputs/select llenan el ancho del .field */
-.inline-fields .field input,
-.inline-fields .field select {
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.button {
-  color: #0c1343 !important;
-  letter-spacing: 1px;
-  font-size: 16px;
-  text-transform: uppercase !important;
-  font-weight: 500;
-  padding: 0.3em 1em;
-  line-height: 1.7em !important;
-  background-color: transparent;
-  background-size: cover;
-  background-position: 50%;
-  background-repeat: no-repeat;
-  border: 2px solid;
-  border-radius: 3px;
 }

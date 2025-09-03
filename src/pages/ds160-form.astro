@@ -1,14 +1,28 @@
 ---
+export const prerender = false;
+
 import "../styles/style.css";
 import PersonalInfo from "../components/personal-info.astro";
 import Family from "../components/family-info.astro";
-import Passport from "../components/family-info.astro";
+import Passport from "../components/passport-info.astro";
 import Address from "../components/address-info.astro";
 import AddWork from "../components/addwork-info.astro";
 import PstnWork from "../components/pres-work.astro";
 import PrvWork from "../components/prev-work.astro";
 import Travel from "../components/travel-info.astro";
 import Security from "../components/security-info.astro";
+
+import { prisma } from "../lib/prisma";
+
+
+const url = new URL(Astro.request.url);
+const id = url.searchParams.get("id") || "";
+
+const clientData = id
+  ? await prisma.cLIENTS.findUnique({
+      where: { ID_CLIENT: Number(id) }
+    })
+  : null;
 ---
 
 <script>

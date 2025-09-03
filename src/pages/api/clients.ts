@@ -39,7 +39,7 @@ export const POST: APIRoute = async ({ request, redirect }) => {
         })
       ).ID_CLIENT;
 
-    return redirect(`/form-ds160?id=${clientID}`);
+    return redirect(`/ds160-form?id=${clientID}`);
   } catch (error) {
     console.error("Error al procesar el formulario:", error);
     return new Response(
