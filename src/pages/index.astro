@@ -11,7 +11,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       </div>
     </div>
     <div class="right-panel">
-      <form method="POST" action="/api/clients">
+      <form id="loginForm">
         <input type="text" id="ps_surname" name="ps_surname" placeholder="SURNAMES (e.g., FERNANDEZ GARCIA)" required />
         <input type="text" id="ps_givnam" name="ps_givnam" placeholder="GIVEN NAMES(e.g., JUAN MIGUEL)" required />
 
@@ -30,4 +30,64 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       </form>
     </div>
   </div>
+
+<script>
+  window.addEventListener("DOMContentLoaded", () => {
+    const form = document.getElementById("loginForm");
+
+    form?.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const formEl = e.currentTarget as HTMLFormElement;
+
+      const payload = {
+        ps_surname: (formEl.querySelector("#ps_surname") as HTMLInputElement).value,
+        ps_givnam: (formEl.querySelector("#ps_givnam") as HTMLInputElement).value,
+        ps_sex: (formEl.querySelector("#ps_sex") as HTMLSelectElement).value,
+        ps_email: (formEl.querySelector("#ps_email") as HTMLInputElement).value,
+        ps_dbirth: (formEl.querySelector("#ps_dbirth") as HTMLInputElement).value
+      };
+
+      const res = await fetch("/api/login-or-fetch", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      });
+
+      const data = await res.json();
+
+      // cliente NO existe
+      if (data.found === false) {
+        const create = confirm("Usuario no existe. ¿Deseas crearlo?");
+        if (!create) return;
+
+        const createRes = await fetch("/api/create", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(payload)
+        });
+
+        const newClient = await createRes.json();
+
+        localStorage.setItem("client", JSON.stringify(newClient));
+
+        window.location.href =
+          `/welcome?id=${newClient.client.id}`;
+
+        return;
+      }
+
+      // cliente existe
+      localStorage.setItem("client", JSON.stringify(data));
+
+      window.location.href =
+        `/welcome?id=${data.client.id}`;  
+    });
+  });
+</script>
+
 </BaseLayout>

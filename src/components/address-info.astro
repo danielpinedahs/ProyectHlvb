@@ -1,5 +1,19 @@
 ---
+export const prerender = false;
+
 import "../styles/styleform.css"
+
+import { prisma } from "../lib/prisma";
+
+
+const url = new URL(Astro.request.url);
+const id = url.searchParams.get("id") || "";
+
+const clientData = id
+  ? await prisma.cLIENTS.findUnique({
+      where: { ID_CLIENT: Number(id) }
+    })
+  : null;
 ---
 <h2>ADDRESS INFO</h2>  
 
@@ -40,40 +54,43 @@ import "../styles/styleform.css"
     <div class="form-row">
         <div class="form-field">
             <label for="sameAsStreetAddress">Is your Mailing Address the same as your Street Address?</label>
-            <input type="text" id="sameAsStreetAddress" name="sameAsStreetAddress">
+            <div class="radio-options" >
+                <label><input type="radio" name="ps_resident" value="Y" > Yes</label>
+                <label><input type="radio" name="ps_resident" value="N" > No</label>
+            </div> 
         </div>    
+        <div class="form-field">
+            
+        </div>   
+    </div>    
+    <div class="form-row">
         <div class="form-field">
             <label for="mailingStreetAddress1">Street Address (Line 1)</label>
             <input type="text" id="mailingStreetAddress1" name="mailingStreetAddress1">
-        </div>   
-    </div>    
-    <div class="form-row">
+        </div>    
         <div class="form-field">
             <label for="mailingStreetAddress2">Street Address (Line 2)</label>
             <input type="text" id="mailingStreetAddress2" name="mailingStreetAddress2">
-        </div>    
-        <div class="form-field">
-            <label for="mailingCity">City</label>
-            <input type="text" id="mailingCity" name="mailingCity">
         </div>   
     </div>    
     <div class="form-row">
         <div class="form-field">
-            <label for="mailingStateProvince">State/Province</label>
-            <input type="text" id="mailingStateProvince" name="mailingStateProvince">
+            <label for="mailingCity">City</label>
+            <input type="text" id="mailingCity" name="mailingCity">
         </div>    
         <div class="form-field">
-            <label for="mailingPostalCode">Postal Zone/ZIP Code</label>
-            <input type="text" id="mailingPostalCode" name="mailingPostalCode">
+            <label for="mailingStateProvince">State/Province</label>
+            <input type="text" id="mailingStateProvince" name="mailingStateProvince">
         </div>   
     </div>      
     <div class="form-row">
         <div class="form-field">
-            <label for="mailingCountryRegion">Country/Region</label>
-            <input type="text" id="mailingCountryRegion" name="mailingCountryRegion">
+            <label for="mailingPostalCode">Postal Zone/ZIP Code</label>
+            <input type="text" id="mailingPostalCode" name="mailingPostalCode">
         </div>    
         <div class="form-field">
-            
+            <label for="mailingCountryRegion">Country/Region</label>
+            <input type="text" id="mailingCountryRegion" name="mailingCountryRegion">
         </div>   
     </div> 
 <h2>Phone and Email</h2>       
@@ -93,28 +110,46 @@ import "../styles/styleform.css"
             <input type="text" id="workPhoneNumber" name="workPhoneNumber">
         </div>    
         <div class="form-field">
-            <label for="additionalPhoneUsed">Have you used any additional phone?</label>
-            <input type="text" id="additionalPhoneUsed" name="additionalPhoneUsed">
+             
         </div>   
     </div>    
     <div class="form-row">
+        <div class="form-field">
+            <label for="additionalPhoneUsed">Have you used any additional phone?</label>
+            <div class="radio-options" >
+                <label><input type="radio" name="ps_resident" value="Y" > Yes</label>
+                <label><input type="radio" name="ps_resident" value="N" > No</label>
+            </div>
+            
+        </div>    
         <div class="form-field">
             <label for="additionalPhoneNumbers">If so, please provide all additional phone</label>
             <input type="text" id="additionalPhoneNumbers" name="additionalPhoneNumbers">
-        </div>    
-        <div class="form-field">
-            <label for="emailAddress">Email Address</label>
-            <input type="text" id="emailAddress" name="emailAddress">
+            
         </div>   
     </div>    
     <div class="form-row">
         <div class="form-field">
-            <label for="additionalEmailUsed">Have you used any additional email?</label>
-            <input type="text" id="additionalEmailUsed" name="additionalEmailUsed">
+            <label for="correo">Email:</label>
+            <input type="email" id="ps_email" name="ps_email" value={clientData?.PS_EMAIL || ""} required>
+            
         </div>    
+        <div class="form-field">
+            <label for="additionalEmailUsed">Have you used any additional email?</label>
+            <div class="radio-options" >
+                <label><input type="radio" name="ps_resident" value="Y" > Yes</label>
+                <label><input type="radio" name="ps_resident" value="N" > No</label>
+            </div> 
+            
+        </div>   
+    </div>    
+    <div class="form-row">
         <div class="form-field">
             <label for="additionalEmails">If so, please provide all additional email</label>
             <input type="text" id="additionalEmails" name="additionalEmails">
+        </div>    
+        <div class="form-field">
+           
         </div>   
     </div>    
         <button type="submit">Save and Continue</button>

@@ -1,30 +1,41 @@
 ---
 export const prerender = false;
 
-import "../styles/style.css";
-import PersonalInfo from "../components/personal-info.astro";
+import { PrismaClient } from "@prisma/client";
+
+import "../styles/styleHom.css";
 import Family from "../components/family-info.astro";
 import Passport from "../components/passport-info.astro";
 import Address from "../components/address-info.astro";
-import AddWork from "../components/addwork-info.astro";
-import PstnWork from "../components/pres-work.astro";
-import PrvWork from "../components/prev-work.astro";
-import Travel from "../components/travel-info.astro";
-import Security from "../components/security-info.astro";
-
-import { prisma } from "../lib/prisma";
 
 
-const url = new URL(Astro.request.url);
-const id = url.searchParams.get("id") || "";
+const prisma = new PrismaClient();
 
-const clientData = id
-  ? await prisma.cLIENTS.findUnique({
-      where: { ID_CLIENT: Number(id) }
-    })
-  : null;
+const id = Astro.url.searchParams.get("id");
+
+console.log("ID URL:", id);
+
+const clientId = BigInt(id || "0");
+
+const cliente = await prisma.cLIENTS.findUnique({
+  where: {
+    ID_CLIENT: clientId
+  }
+});
+
+const aplicaciones = await prisma.aPPLICATION.findMany({
+  where: {
+    ID_CLIENT: clientId
+  },
+  orderBy: {
+    ID_APPLICATION: "desc"
+  }
+});
+
+console.log("CLIENTE:", cliente);
+
+await prisma.$disconnect();
 ---
-
 <script>
     const menu = document.getElementById("menu");
     const sidebar = document.getElementById("sidebar");
@@ -40,12 +51,6 @@ const clientData = id
     link.addEventListener("click", (e) => {
       e.preventDefault();
 
-      // Ocultar todos los sections
-      document.querySelectorAll("main .content").forEach(sec => {
-        sec.classList.add("hidden");
-        sec.classList.remove("active");
-      });
-
       // Buscar el texto del <span> de este link
       const span = link.querySelector("span");
       if (!span) return; // seguridad
@@ -54,10 +59,7 @@ const clientData = id
       const target = span.innerText.toLowerCase().replace(/\s+/g, "");
       const section = document.getElementById(target);
 
-      if (section) {
-        section.classList.remove("hidden");
-        section.classList.add("active");
-      }
+     
 
       // Opcional: resaltar item activo
       document.querySelectorAll("#sidebar a").forEach(a => a.classList.remove("selected"));
@@ -109,55 +111,25 @@ const clientData = id
                     <li>
                         <a href="#" class="selected">
                             <img src="../personal.svg" alt="" />
-                            <span>PERSONAL INFO</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <img src="../travel.svg" alt="" />
-                            <span>TRAVEL INFO</span>
+                            <span>MY APPS</span>
                         </a>
                     </li>
                     <li>
                         <a href="#">
                             <img src="../address.svg" alt="" />
-                            <span>ADDRESS INFO</span>
+                            <span>OPTION 1</span>
                         </a>
                     </li>
                     <li>
                         <a href="#">
                             <img src="../passport.svg" alt="" />
-                            <span>PASSPORT INFO</span>
+                            <span>OPTION 2</span>
                         </a>
                     </li>
                     <li>
                         <a href="#">
                             <img src="../family.svg" alt="" />
-                            <span>FAMILY INFO</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <img src="../work.svg" alt="" />
-                            <span>PRESENT WORK</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <img src="../work.svg" alt="" />
-                            <span>PREVIOUS WORK</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <img src="../work.svg" alt="" />
-                            <span>ADITIONAL WORK</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <img src="../security.svg" alt="" />
-                            <span>SECURITY INFO</span>
+                            <span>OPTION 3</span>
                         </a>
                     </li>
                 </ul>
@@ -166,12 +138,76 @@ const clientData = id
         
         <main id="main">
             <section id="personalinfo" data-step="1" class="content active">
-                <PersonalInfo />
-            </section>
 
-            <section id="travelinfo" data-step="2" class="content hidden">
-                <Travel />
-            </section>
+  <h1>
+    WELCOME,
+    {cliente?.PS_SURNAME}
+    {" "}
+    {cliente?.PS_GIVNAM}
+  </h1>
+
+  <br />
+
+  {
+    aplicaciones.length > 0 ? (
+
+      <table border="1">
+        <thead>
+          <tr>
+            <th>APP ID</th>
+            <th>STATUS</th>
+            <th>CREATED</th>
+            <th>UPDATED</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {
+            aplicaciones.map((app) => (
+              <tr>
+                <td>{app.ID_APPLICATION.toString()}</td>
+
+                <td>{app.APP_STATUS}</td>
+
+                <td>
+                  {
+                    app.APP_CREATED
+                      ? new Date(app.APP_CREATED)
+                          .toISOString()
+                          .split("T")[0]
+                      : ""
+                  }
+                </td>
+
+                <td>
+                  {
+                    app.APP_UPDATED
+                      ? new Date(app.APP_UPDATED)
+                          .toISOString()
+                          .split("T")[0]
+                      : ""
+                  }
+                </td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+
+    ) : (
+
+      <p>THIS CLIENT HAS NO APPLICATIONS</p>
+
+    )
+  }
+
+  <br />
+
+  <button>
+    + CREATE APPLICATION
+  </button>
+
+</section>
 
             <section id="addressinfo" data-step="3" class="content hidden">
                 <Address />
@@ -185,21 +221,6 @@ const clientData = id
                 <Family />
             </section>
 
-            <section id="presentwork" data-step="6" class="content hidden">
-                <PstnWork />
-            </section>
-
-            <section id="previouswork" data-step="7" class="content hidden">
-                <PrvWork />
-            </section>
-
-            <section id="aditionalwork" data-step="8" class="content hidden">
-                <AddWork />
-            </section>
-
-            <section id="securityinfo" data-step="9" class="content hidden">
-                <Security />
-            </section>
              <!-- 🔔 Contenedor global de notificaciones -->
 
         </main>
@@ -209,3 +230,7 @@ const clientData = id
     </body>
 
 </html>
+
+
+
+

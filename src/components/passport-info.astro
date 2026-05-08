@@ -1,5 +1,21 @@
 ---
+export const prerender = false;
+
 import "../styles/styleform.css"
+import { initFormHandler } from "../pages/api/formHandler";
+
+import { prisma } from "../lib/prisma";
+
+
+const url = new URL(Astro.request.url);
+const id = url.searchParams.get("id") || "";
+
+const clientData = id
+  ? await prisma.cLIENTS.findUnique({
+      where: { ID_CLIENT: Number(id) }
+    })
+  : null;
+  
 ---
 <h2>Passport/Travel Document Information</h2>
 <form id="miFormulario" action="#" method="post">
@@ -22,9 +38,14 @@ import "../styles/styleform.css"
         </div>    
         <div class="form-field">
             <label for="issuingCountry">Country/Authority that Issued</label>
-            <input type="text" id="issuingCountry" name="issuingCountry">
+            <select id="issuingCountry" name="issuingCountry" >
+                <option value="" disabled >- SELECT ONE -</option>
+                <option value="COLOMBIA" selected="COLOMBIA">COLOMBIA</option>
+            </select>
+
         </div>   
     </div>    
+
     <div class="form-row">
         <div class="form-field">
            <label for="whereIssued">Where was the Passport/Travel Document Issued?</label>
@@ -48,18 +69,33 @@ import "../styles/styleform.css"
     <div class="form-row">
         <div class="form-field">
            <label for="issuanceDate">Issuance Date [mm/dd/yyyy]</label>
-            <input type="text" id="issuanceDate" name="issuanceDate">
+            <input
+                    type="date"
+                    id="issuanceDate"
+                    name="issuanceDate"
+                    value={clientData?.PS_DBIRTH?.toISOString().split("T")[0] || ""}
+                    required
+                />
         </div>    
         <div class="form-field">
             <label for="expirationDate">Expiration Date [mm/dd/yyyy]</label>
-            <input type="text" id="expirationDate" name="expirationDate">
+            <input
+                    type="date"
+                    id="issuanceDate"
+                    name="issuanceDate"
+                    value={clientData?.PS_DBIRTH?.toISOString().split("T")[0] || ""}
+                    required
+                />
         </div>   
     </div>  
 <h3>Lost Passport</h3>    
     <div class="form-row">
         <div class="form-field">
            <label for="lostPassport">Have you ever lost a passport or had one?</label>
-            <input type="text" id="lostPassport" name="lostPassport">
+            <div class="radio-options" >
+                <label><input type="radio" name="ps_telecod" value="YES" checked={clientData?.PS_TELCOD === "Y"}  > Yes</label>
+                <label><input type="radio" name="ps_telecod" value="NO" checked={clientData?.PS_TELCOD === "N"}   > No</label>
+            </div>
         </div>    
         <div class="form-field">
             <label for="lostPassportNumber">Passport/Travel Document Number</label>

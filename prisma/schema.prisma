@@ -8,13 +8,44 @@ datasource db {
 }
 
 model CLIENTS {
-  ID_CLIENT     BigInt    @id @default(autoincrement())
-  PS_SURNAME    String?
-  PS_GIVNAM     String?
-  PS_SEX        String?
-  PS_EMAIL      String?
-  PS_DBIRTH     DateTime? @db.Date
-  PS_COUNTRY    String?
+  ID_CLIENT   BigInt   @id @default(autoincrement())
+  PS_SURNAME  String?
+  PS_GIVNAM   String?
+  PS_SEX      String?
+  PS_EMAIL    String?
+  PS_DBIRTH   DateTime? @db.Date
+  PS_COUNTRY  String?
+
+  APPLICATION APPLICATION[]
+}
+
+model APPLICATION {
+  ID_APPLICATION BigInt   @id @default(autoincrement())
+  ID_CLIENT      BigInt
+
+  APP_NAME       String?
+  APP_STATUS     String?
+  APP_CREATED    DateTime @default(now())
+  APP_UPDATED    DateTime @updatedAt
+  APP_SUBMITTED  DateTime?
+
+  CLIENT CLIENTS @relation(fields: [ID_CLIENT], references: [ID_CLIENT])
+
+  CLIENT_INFO CLIENT_INFO[]
+  TRAVEL_INFO TRAVEL_INFO[]
+  ADDRESS     ADDRESS[]
+  PASSPORT    PASSPORT[]
+  FAMILY      FAMILY[]
+  PRESS_WORK  PRESS_WORK[]
+  PREV_WORK   PREV_WORK[]
+  ADD_WORK    ADD_WORK[]
+  SECURITY    SECURITY[]
+}
+
+model CLIENT_INFO {
+  ID_CLIENT_INF BigInt @id @default(autoincrement())
+  ID_APPLICATION BigInt
+
   PS_HOLD       String?
   PS_OCOUNTRY   String?
   PS_RESIDENT   String?
@@ -24,331 +55,349 @@ model CLIENTS {
   PS_IDENTITY   String?
   PS_SECNUMBER  String?
   PS_TAXNUMBER  String?
-  // relación con Tablas
-  TRAVEL_INFO   TRAVEL_INFO[]
-  ADDRESS ADDRESS[]
-  PASSPORT PASSPORT[]
-  FAMILY FAMILY[]
-  PRESS_WORK PRESS_WORK[]
-  PREV_WORK PREV_WORK[]
-  ADD_WORK ADD_WORK[]
-  SECURITY SECURITY[]
+  PS_QST1       String?
+  PS_OSURN      String?
+  PS_OGIVN      String?
+  PS_TELCOD     String?
+  PS_DCITY      String?
+  PS_DSTATE     String?
+  PS_MARITAL    String?
+  PS_FULLNAME   String?
+
+  APPLICATION APPLICATION @relation(fields: [ID_APPLICATION], references: [ID_APPLICATION])
 }
 
 model TRAVEL_INFO {
-  ID_TRAVEL      BigInt    @id @default(autoincrement())
-  ID_CLIENT      BigInt?
+  ID_TRAVEL BigInt @id @default(autoincrement())
+  ID_APPLICATION BigInt
+
   PTI_BEEN       String?
-  PTI_DATE1      DateTime? @db.Date
+  PTI_DATE1      DateTime?
   PTI_LEN1       String?
-  PTI_DATE2      DateTime? @db.Date
+  PTI_DATE2      DateTime?
   PTI_LEN2       String?
-  PTI_DATE3      DateTime? @db.Date
+  PTI_DATE3      DateTime?
   PTI_LEN3       String?
-  PTI_DATE4      DateTime? @db.Date
+  PTI_DATE4      DateTime?
   PTI_LEN4       String?
-  PTI_DATE5      DateTime? @db.Date
+  PTI_DATE5      DateTime?
   PTI_LEN5       String?
-  PTI_HOLDRIVER  String?   @db.Char(1)
+
+  PTI_HOLDRIVER  String?
   PTI_LICENSE    String?
   PTI_SLICENSE   String?
-  PTI_ISSUEDV    String?   @db.Char(1)
-  PTI_DATEISSUED DateTime? @db.Date
-  PTI_DATEXPIRED DateTime? @db.Date
+  PTI_ISSUEDV    String?
+  PTI_DATEISSUED DateTime?
+  PTI_DATEXPIRED DateTime?
   PTI_REDNUMBER  String?
-  PTI_SAMEVISA   String?   @db.Char(1)
-  PTI_SAMECNT    String?   @db.Char(1)
-  PTI_TENPRINTED String?   @db.Char(1)
+  PTI_SAMEVISA   String?
+  PTI_SAMECNT    String?
+  PTI_TENPRINTED String?
   PTI_LOST       String?
-  PTI_QST1       String?
-  PTI_RST1       String?
-  PTI_QST2       String?   @db.Char(1)
-  PTI_RST2       String?
-  PTI_QST3       String?   @db.Char(1)
-  PTI_RST3       String?
-  PTI_QST4       String?   @db.Char(1)
-  PTI_RST4       String?
-  PTI_QST5       String?   @db.Char(1)
-  PTI_RST5       String?
 
-  // Relación opcional con CLIENTS (si la tabla CLIENTS existe)
-  CLIENTS CLIENTS? @relation(fields: [ID_CLIENT], references: [ID_CLIENT])
+  PTI_QST1 String?
+  PTI_RST1 String?
+  PTI_QST2 String?
+  PTI_RST2 String?
+  PTI_QST3 String?
+  PTI_RST3 String?
+  PTI_QST4 String?
+  PTI_RST4 String?
+  PTI_QST5 String?
+  PTI_RST5 String?
+
+  APPLICATION APPLICATION @relation(fields: [ID_APPLICATION], references: [ID_APPLICATION])
 }
 
 model ADDRESS {
-  ID_ADDRESS   BigInt   @id @default(autoincrement())
-  ID_CLIENT    BigInt?
-  ADD_ADD1     String?
-  ADD_ADD2     String?
-  ADD_CITY     String?
-  ADD_STATE    String?
-  ADD_POSTAL   String?
-  ADD_COUNTRY  String?
-  ADD_MAILING  String?
-  ADD_SAMEADD  String?
-  ADD_MADD1    String?
-  ADD_MADD2    String?
-  ADD_MCITY    String?
-  ADD_MSTATE   String?
-  ADD_MPOSTAL  String?
-  ADD_MCOUNTRY String?
-  ADD_PHONE1   String?
-  ADD_PHONE2   String?
-  ADD_WPHONE   String?
-  ADD_ADDPHONE String?
-  ADD_PHONE3   String?
-  ADD_MAIL1    String?
-  ADD_ADDMAIL  String?
-  ADD_MAIL2    String?
+  ID_ADDRESS BigInt @id @default(autoincrement())
+  ID_APPLICATION BigInt
 
-  // Relación opcional con CLIENTS (si un cliente tiene direcciones)
-  CLIENTS CLIENTS? @relation(fields: [ID_CLIENT], references: [ID_CLIENT])
+  ADD_ADD1 String?
+  ADD_ADD2 String?
+  ADD_CITY String?
+  ADD_STATE String?
+  ADD_POSTAL String?
+  ADD_COUNTRY String?
+  ADD_MAILING String?
+  ADD_SAMEADD String?
+
+  ADD_MADD1 String?
+  ADD_MADD2 String?
+  ADD_MCITY String?
+  ADD_MSTATE String?
+  ADD_MPOSTAL String?
+  ADD_MCOUNTRY String?
+
+  ADD_PHONE1 String?
+  ADD_PHONE2 String?
+  ADD_WPHONE String?
+  ADD_ADDPHONE String?
+  ADD_PHONE3 String?
+
+  ADD_MAIL1 String?
+  ADD_ADDMAIL String?
+  ADD_MAIL2 String?
+
+  APPLICATION APPLICATION @relation(fields: [ID_APPLICATION], references: [ID_APPLICATION])
 }
 
 model PASSPORT {
-  ID_PASSPORT  BigInt    @id @default(autoincrement())
-  ID_CLIENT    BigInt?
-  PI_TYPE      String?
-  PI_NUMBER    String?
-  PI_BOOKN     String?
-  PI_COUNTRY   String?
-  PI_PLCISSUED String?
-  PI_CITY      String?
-  PI_STATE     String?
-  PI_COUNTRYR  String?
-  PI_ISSUED    DateTime? @db.Date
-  PI_EXPIRED   DateTime? @db.Date
-  PI_LOST      String?
-  PI_LNUMBER   String?
-  PI_LCOUNTRY  String?
-  PI_LEXP      DateTime? @db.Date
+  ID_PASSPORT BigInt @id @default(autoincrement())
+  ID_APPLICATION BigInt
 
-  // Relación opcional con CLIENTS
-  CLIENTS   CLIENTS? @relation(fields: [ID_CLIENT], references: [ID_CLIENT])
+  PI_TYPE String?
+  PI_NUMBER String?
+  PI_BOOKN String?
+  PI_COUNTRY String?
+  PI_PLCISSUED String?
+  PI_CITY String?
+  PI_STATE String?
+  PI_COUNTRYR String?
+  PI_ISSUED DateTime?
+  PI_EXPIRED DateTime?
+  PI_LOST String?
+  PI_LNUMBER String?
+  PI_LCOUNTRY String?
+  PI_LEXP DateTime?
+
+  APPLICATION APPLICATION @relation(fields: [ID_APPLICATION], references: [ID_APPLICATION])
 }
 
 model FAMILY {
-  ID_FAMILY   BigInt    @id @default(autoincrement())
-  ID_CLIENT   BigInt?
-  FLY_FSUR    String?
-  FLY_FGIV    String?
-  FLY_FDATE   DateTime? @db.Date
-  FLY_FUS     String?
-  FLY_MSUR    String?
-  FLY_MGIV    String?
-  FLY_MDATE   DateTime? @db.Date
-  FLY_MUS     String?
-  FLY_QST1    String?
-  FLY_R1SUR   String?
-  FLY_R1GIV   String?
-  FLY_R1REL   String?
-  FLY_R1STAT  String?
-  FLY_R2SUR   String?
-  FLY_R2GIV   String?
-  FLY_R2REL   String?
-  FLY_R2STAT  String?
-  FLY_QST2    String?
-  FLY_O1SUR   String?
-  FLY_O1GIV   String?
-  FLY_O1DATE  DateTime? @db.Date
-  FLY_O1CNT   String?
-  FLY_O1CITY  String?
-  FLY_O1REG   String?
-  FLY_O1ADD1  String?
-  FLY_O1ADD2  String?
+  ID_FAMILY BigInt @id @default(autoincrement())
+  ID_APPLICATION BigInt
+
+  FLY_FSUR String?
+  FLY_FGIV String?
+  FLY_FDATE DateTime?
+  FLY_FUS String?
+
+  FLY_MSUR String?
+  FLY_MGIV String?
+  FLY_MDATE DateTime?
+  FLY_MUS String?
+
+  FLY_QST1 String?
+
+  FLY_R1SUR String?
+  FLY_R1GIV String?
+  FLY_R1REL String?
+  FLY_R1STAT String?
+
+  FLY_R2SUR String?
+  FLY_R2GIV String?
+  FLY_R2REL String?
+  FLY_R2STAT String?
+
+  FLY_QST2 String?
+
+  FLY_O1SUR String?
+  FLY_O1GIV String?
+  FLY_O1DATE DateTime?
+  FLY_O1CNT String?
+  FLY_O1CITY String?
+  FLY_O1REG String?
+
+  FLY_O1ADD1 String?
+  FLY_O1ADD2 String?
   FLY_O1ACITY String?
   FLY_O1ASTATE String?
   FLY_O1POSTAL String?
-  FLY_O1PHONE  String?
-  FLY_FSSUR   String?
-  FLY_FSGIV   String?
-  FLY_FSDATE  DateTime? @db.Date
-  FLY_FCNT    String?
-  FLY_FPOB    String?
-  FLY_FDATEM  DateTime? @db.Date
-  FLY_FDATEE  DateTime? @db.Date
-  FLY_FTCNT   String?
+  FLY_O1PHONE String?
 
-  // Relación opcional con CLIENTS
-  CLIENTS   CLIENTS? @relation(fields: [ID_CLIENT], references: [ID_CLIENT])
+  FLY_FSSUR String?
+  FLY_FSGIV String?
+  FLY_FSDATE DateTime?
+  FLY_FCNT String?
+  FLY_FPOB String?
+  FLY_FDATEM DateTime?
+  FLY_FDATEE DateTime?
+  FLY_FTCNT String?
+
+  APPLICATION APPLICATION @relation(fields: [ID_APPLICATION], references: [ID_APPLICATION])
 }
 
 model PRESS_WORK {
-  ID_PRESS_WORK BigInt    @id @default(autoincrement())
-  ID_CLIENT     BigInt?
-  PW_PROCP      String?
-  PW_PENAM      String?
-  PW_STADD1     String?
-  PW_STADD2     String?
-  PW_CITY       String?
-  PW_STATE      String?
-  PW_CNTRY      String?
-  PW_TEL        String?
-  PW_SRTDAT     DateTime? @db.Date
-  PW_ZIP        String?
-  PW_INC        String?
-  PW_DUT        String?
+  ID_PRESS_WORK BigInt @id @default(autoincrement())
+  ID_APPLICATION BigInt
 
-  // Relación opcional con CLIENTS
-  CLIENTS   CLIENTS? @relation(fields: [ID_CLIENT], references: [ID_CLIENT])
+  PW_PROCP String?
+  PW_PENAM String?
+  PW_STADD1 String?
+  PW_STADD2 String?
+  PW_CITY String?
+  PW_STATE String?
+  PW_CNTRY String?
+  PW_TEL String?
+  PW_SRTDAT DateTime?
+  PW_ZIP String?
+  PW_INC String?
+  PW_DUT String?
+
+  APPLICATION APPLICATION @relation(fields: [ID_APPLICATION], references: [ID_APPLICATION])
 }
 
 model PREV_WORK {
-  ID_PREV_WORK BigInt    @id @default(autoincrement())
-  ID_CLIENT    BigInt?
-  PRVW_QST1    String?
-  // Experiencia 1
-  PRVW_1NAM    String?
-  PRVW_1ADD1   String?
-  PRVW_1ADD2   String?
-  PRVW_1CITY   String?
-  PRVW_1STATE  String?
-  PRVW_1ZIP    String?
-  PRVW_1CNT    String?
-  PRVW_1TEL    String?
-  PRVW_1TIT    String?
-  PRVW_1SUPN   String?
-  PRVW_1SUPG   String?
-  PRVW_1SRTDT  DateTime? @db.Date
-  PRVW_1SRTEND DateTime? @db.Date
-  PRVW_1DUT    String?
-  // Experiencia 2
-  PRVW_2NAM    String?
-  PRVW_2ADD1   String?
-  PRVW_2ADD2   String?
-  PRVW_2CITY   String?
-  PRVW_2STATE  String?
-  PRVW_2ZIP    String?
-  PRVW_2CNT    String?
-  PRVW_2TEL    String?
-  PRVW_2TIT    String?
-  PRVW_2SUPN   String?
-  PRVW_2SUPG   String?
-  PRVW_2SRTDT  DateTime? @db.Date
-  PRVW_2SRTEND DateTime? @db.Date
-  PRVW_2DUT    String?
-  PRVW_QST2    String?
-  // Experiencia 3
-  PRVW_3NAM    String?
-  PRVW_3ADD1   String?
-  PRVW_3ADD2   String?
-  PRVW_3CITY   String?
-  PRVW_3STATE  String?
-  PRVW_3ZIP    String?
-  PRVW_3CNT    String?
-  PRVW_3COUR   String?
-  PRVW_3FROM   DateTime? @db.Date
-  PRVW_3TO     DateTime? @db.Date
-  // Experiencia 4
-  PRVW_4NAM    String?
-  PRVW_4ADD1   String?
-  PRVW_4ADD2   String?
-  PRVW_4CITY   String?
-  PRVW_4STATE  String?
-  PRVW_4ZIP    String?
-  PRVW_4CNT    String?
-  PRVW_4COUR   String?
-  PRVW_4FROM   DateTime? @db.Date
-  PRVW_4TO     DateTime? @db.Date
-  // Relación con CLIENTS
-  CLIENTS   CLIENTS? @relation(fields: [ID_CLIENT], references: [ID_CLIENT])
+  ID_PREV_WORK BigInt @id @default(autoincrement())
+  ID_APPLICATION BigInt
+
+  PRVW_QST1 String?
+
+  PRVW_1NAM String?
+  PRVW_1ADD1 String?
+  PRVW_1ADD2 String?
+  PRVW_1CITY String?
+  PRVW_1STATE String?
+  PRVW_1ZIP String?
+  PRVW_1CNT String?
+  PRVW_1TEL String?
+  PRVW_1TIT String?
+  PRVW_1SUPN String?
+  PRVW_1SUPG String?
+  PRVW_1SRTDT DateTime?
+  PRVW_1SRTEND DateTime?
+  PRVW_1DUT String?
+
+  PRVW_2NAM String?
+  PRVW_2ADD1 String?
+  PRVW_2ADD2 String?
+  PRVW_2CITY String?
+  PRVW_2STATE String?
+  PRVW_2ZIP String?
+  PRVW_2CNT String?
+  PRVW_2TEL String?
+  PRVW_2TIT String?
+  PRVW_2SUPN String?
+  PRVW_2SUPG String?
+  PRVW_2SRTDT DateTime?
+  PRVW_2SRTEND DateTime?
+  PRVW_2DUT String?
+
+  PRVW_QST2 String?
+
+  PRVW_3NAM String?
+  PRVW_3ADD1 String?
+  PRVW_3ADD2 String?
+  PRVW_3CITY String?
+  PRVW_3STATE String?
+  PRVW_3ZIP String?
+  PRVW_3CNT String?
+  PRVW_3COUR String?
+  PRVW_3FROM DateTime?
+  PRVW_3TO DateTime?
+
+  PRVW_4NAM String?
+  PRVW_4ADD1 String?
+  PRVW_4ADD2 String?
+  PRVW_4CITY String?
+  PRVW_4STATE String?
+  PRVW_4ZIP String?
+  PRVW_4CNT String?
+  PRVW_4COUR String?
+  PRVW_4FROM DateTime?
+  PRVW_4TO DateTime?
+
+  APPLICATION APPLICATION @relation(fields: [ID_APPLICATION], references: [ID_APPLICATION])
 }
 
 model ADD_WORK {
-  ID_ADD_WORK BigInt    @id @default(autoincrement())
-  ID_CLIENT   BigInt?
-  AW_TRIB     String?
-  AW_NAME     String?
-  AW_LANG     String?
-  AW_CNT      String?
-  AW_         String?
-  AW_CHAR     String?
-  AW_CNAME    String?
-  AW_QST1     String?
-  AW_ANS1     String?
-  AW_QST2     String?
-  AW_2CNT     String?
-  AW_2BRA     String?
-  AW_2RANK    String?
-  AW_2SPEC    String?
-  AW_2FROM    DateTime? @db.Date
-  AW_2TO      DateTime? @db.Date
-  AW_2MEMB    String?
-  AW_2EXP     String?
+  ID_ADD_WORK BigInt @id @default(autoincrement())
+  ID_APPLICATION BigInt
 
-  // Relación con CLIENTS
-  CLIENTS   CLIENTS? @relation(fields: [ID_CLIENT], references: [ID_CLIENT])
+  AW_TRIB String?
+  AW_NAME String?
+  AW_LANG String?
+  AW_CNT String?
+  AW_ String?
+  AW_CHAR String?
+  AW_CNAME String?
+
+  AW_QST1 String?
+  AW_ANS1 String?
+  AW_QST2 String?
+
+  AW_2CNT String?
+  AW_2BRA String?
+  AW_2RANK String?
+  AW_2SPEC String?
+  AW_2FROM DateTime?
+  AW_2TO DateTime?
+
+  AW_2MEMB String?
+  AW_2EXP String?
+
+  APPLICATION APPLICATION @relation(fields: [ID_APPLICATION], references: [ID_APPLICATION])
 }
 
-
 model SECURITY {
-  ID_SECURITY BigInt    @id @default(autoincrement())
-  ID_CLIENT   BigInt?
-  SEC_QST1    String?
-  SEC_ANS1    String?
-  SEC_QST2    String?
-  SEC_ANS2    String?
-  SEC_QST3    String?
-  SEC_ANS3    String?
-  SEC_QST4    String?
-  SEC_ANS4    String?
-  SEC_QST5    String?
-  SEC_ANS5    String?
-  SEC_QST6    String?
-  SEC_ANS6    String?
-  SEC_QST7    String?
-  SEC_ANS7    String?
-  SEC_QST8    String?
-  SEC_ANS8    String?
-  SEC_QST9    String?
-  SEC_ANS9    String?
-  SEC_QST10   String?
-  SEC_ANS10   String?
-  SEC_QST11   String?
-  SEC_ANS11   String?
-  SEC_QST12   String?
-  SEC_ANS12   String?
-  SEC_QST13   String?
-  SEC_ANS13   String?
-  SEC_QST14   String?
-  SEC_ANS14   String?
-  SEC_QST15   String?
-  SEC_ANS15   String?
-  SEC_QST16   String?
-  SEC_ANS16   String?
-  SEC_QST17   String?
-  SEC_ANS17   String?
-  SEC_QST18   String?
-  SEC_ANS18   String?
-  SEC_QST19   String?
-  SEC_ANS19   String?
-  SEC_QST20   String?
-  SEC_ANS20   String?
-  SEC_QST21   String?
-  SEC_ANS21   String?
-  SEC_QST22   String?
-  SEC_ANS22   String?
-  SEC_QST23   String?
-  SEC_ANS23   String?
-  SEC_QST24   String?
-  SEC_ANS24   String?
-  SEC_QST25   String?
-  SEC_ANS25   String?
-  SEC_QST26   String?
-  SEC_ANS26   String?
-  SEC_QST27   String?
-  SEC_ANS27   String?
-  SEC_QST28   String?
-  SEC_ANS28   String?
-  SEC_QST29   String?
-  SEC_ANS29   String?
-  SEC_QST30   String?
-  SEC_ANS30   String?
-  SEC_QST31   String?
-  SEC_ANS31   String?
-  SEC_QST32   String?
-  SEC_ANS32   String?
+  ID_SECURITY BigInt @id @default(autoincrement())
+  ID_APPLICATION BigInt
 
-  // Relación con CLIENTS
-  CLIENTS   CLIENTS? @relation(fields: [ID_CLIENT], references: [ID_CLIENT])
+  SEC_QST1 String?
+  SEC_ANS1 String?
+  SEC_QST2 String?
+  SEC_ANS2 String?
+  SEC_QST3 String?
+  SEC_ANS3 String?
+  SEC_QST4 String?
+  SEC_ANS4 String?
+  SEC_QST5 String?
+  SEC_ANS5 String?
+  SEC_QST6 String?
+  SEC_ANS6 String?
+  SEC_QST7 String?
+  SEC_ANS7 String?
+  SEC_QST8 String?
+  SEC_ANS8 String?
+  SEC_QST9 String?
+  SEC_ANS9 String?
+  SEC_QST10 String?
+  SEC_ANS10 String?
+  SEC_QST11 String?
+  SEC_ANS11 String?
+  SEC_QST12 String?
+  SEC_ANS12 String?
+  SEC_QST13 String?
+  SEC_ANS13 String?
+  SEC_QST14 String?
+  SEC_ANS14 String?
+  SEC_QST15 String?
+  SEC_ANS15 String?
+  SEC_QST16 String?
+  SEC_ANS16 String?
+  SEC_QST17 String?
+  SEC_ANS17 String?
+  SEC_QST18 String?
+  SEC_ANS18 String?
+  SEC_QST19 String?
+  SEC_ANS19 String?
+  SEC_QST20 String?
+  SEC_ANS20 String?
+  SEC_QST21 String?
+  SEC_ANS21 String?
+  SEC_QST22 String?
+  SEC_ANS22 String?
+  SEC_QST23 String?
+  SEC_ANS23 String?
+  SEC_QST24 String?
+  SEC_ANS24 String?
+  SEC_QST25 String?
+  SEC_ANS25 String?
+  SEC_QST26 String?
+  SEC_ANS26 String?
+  SEC_QST27 String?
+  SEC_ANS27 String?
+  SEC_QST28 String?
+  SEC_ANS28 String?
+  SEC_QST29 String?
+  SEC_ANS29 String?
+  SEC_QST30 String?
+  SEC_ANS30 String?
+  SEC_QST31 String?
+  SEC_ANS31 String?
+  SEC_QST32 String?
+  SEC_ANS32 String?
+
+  APPLICATION APPLICATION @relation(fields: [ID_APPLICATION], references: [ID_APPLICATION])
 }

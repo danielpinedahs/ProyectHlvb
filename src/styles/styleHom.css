@@ -144,7 +144,7 @@ header{
 
 .sidebar{
     margin-top: 4rem;
-    width: 4rem;
+    width: 18.75rem;
     height: 100%;
     position: fixed;
     top: 0;
@@ -159,7 +159,7 @@ header{
 }
 
 .sidebar.menu-toggle{
-    width: 18.75rem;
+    width: 4rem;
 }
 
 .sidebar a{
@@ -192,13 +192,13 @@ header{
 
 main{
     margin-top: 4rem;
-    margin-left: 4rem;
+    margin-left: 18.75rem;
     padding: 2rem;
     transition: margin-left 0.5s ease;
 }
 
 main.menu-toggle{
-    margin-left: 18.75rem;
+    margin-left: 4rem;
 }
 
 .content.hidden {

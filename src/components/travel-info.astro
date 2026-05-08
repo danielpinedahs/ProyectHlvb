@@ -1,178 +1,259 @@
 ---
+export const prerender = false;
+
 import "../styles/styleform.css"
+import { initFormHandler } from "../pages/api/formHandler";
+
+import { prisma } from "../lib/prisma";
+
+
+const url = new URL(Astro.request.url);
+const id = url.searchParams.get("id") || "";
+
+const clientData = id
+  ? await prisma.cLIENTS.findUnique({
+      where: { ID_CLIENT: Number(id) }
+    })
+  : null;
 ---
-<h2>Información de Viaje</h2>
+<h2>TRAVEL INFORMATION</h2>
 <form id="miFormulario" action="#" method="post">
+    <input type="hidden" name="id" value={id}>
+    <input type="hidden" name="api" value="travel-update">
     <div class="form-row">
         <div class="form-field">
-            <label for="beenInUS">¿Has estado alguna vez en EE. UU.?</label>
-            <input type="text" id="beenInUS" name="beenInUS">
+            <label for="pti_been">Have you ever been in the U.S.?</label>
+            <div class="radio-options" >
+                <label><input type="radio" name="pti_been" value="Y" > Yes</label>
+                <label><input type="radio" name="pti_been" value="N" > No</label>
+            </div>
         </div>    
         <div class="form-field">
-            <label for="secu">SECU</label>
-            <input type="text" id="secu" name="secu">
+
         </div>   
     </div> 
     <div class="form-row">
         <div class="form-field">
-            <label for="dateArrived1">Fecha de llegada (mm/dd/yyyy)</label>
-            <input type="text" id="dateArrived1" name="dateArrived1">
+            <label for="pti_date1">Date Arrived</label>
+                <input
+                    type="date"
+                    id="pti_date1"
+                    name="pti_date1"
+                    
+                />
         </div>    
         <div class="form-field">
-            <label for="lengthOfStay1">Duración de la estancia</label>
-            <input type="text" id="lengthOfStay1" name="lengthOfStay1">
+            <label for="pti_len1">Length of Stay</label>
+            <input type="text" id="pti_len1" name="pti_len1">
         </div>   
     </div>  
     <div class="form-row">
         <div class="form-field">
-            <label for="dateArrived2">Fecha de llegada (mm/dd/yyyy)</label>
-            <input type="text" id="dateArrived2" name="dateArrived2">
+            <label for="pti_date2">Date Arrived</label>
+                <input
+                    type="date"
+                    id="pti_date2"
+                    name="pti_date2"
+                    
+                />
         </div>    
         <div class="form-field">
-            <label for="lengthOfStay2">Duración de la estancia</label>
-            <input type="text" id="lengthOfStay2" name="lengthOfStay2">
+            <label for="pti_len2">Length of Stay</label>
+            <input type="text" id="pti_len2" name="pti_len2">
         </div>   
     </div>  
     <div class="form-row">
         <div class="form-field">
-            <label for="dateArrived3">Fecha de llegada (mm/dd/yyyy)</label>
-            <input type="text" id="dateArrived3" name="dateArrived3">
+           <label for="pti_date3">Date Arrived</label>
+                <input
+                    type="date"
+                    id="pti_date3"
+                    name="pti_date3"
+                    
+                />
         </div>    
         <div class="form-field">
-            <label for="lengthOfStay3">Duración de la estancia</label>
-            <input type="text" id="lengthOfStay3" name="lengthOfStay3">
+            <label for="pti_len3">Length of Stay</label>
+            <input type="text" id="pti_len3" name="pti_len3">
         </div>   
     </div>  
     <div class="form-row">
         <div class="form-field">
-            <label for="dateArrived4">Fecha de llegada (mm/dd/yyyy)</label>
-            <input type="text" id="dateArrived4" name="dateArrived4">
+            <label for="pti_date4">Date Arrived</label>
+                <input
+                    type="date"
+                    id="pti_date4"
+                    name="pti_date4"
+                />
         </div>    
         <div class="form-field">
-            <label for="lengthOfStay4">Duración de la estancia</label>
-            <input type="text" id="lengthOfStay4" name="lengthOfStay4">
+            <label for="pti_len4">Length of Stay</label>
+            <input type="text" id="pti_len4" name="pti_len4">
         </div>   
     </div>  
     <div class="form-row">
         <div class="form-field">
-            <label for="dateArrived5">Fecha de llegada (mm/dd/yyyy)</label>
-            <input type="text" id="dateArrived5" name="dateArrived5">
+           <label for="pti_date5">Date Arrived</label>
+                <input
+                    type="date"
+                    id="pti_date5"
+                    name="pti_date5"
+
+                />
         </div>    
         <div class="form-field">
-            <label for="lengthOfStay5">Duración de la estancia</label>
-            <input type="text" id="lengthOfStay5" name="lengthOfStay5">
+            <label for="pti_len5">Length of Stay</label>
+            <input type="text" id="pti_len5" name="pti_len5">
         </div>   
     </div> 
-<h3>Información de Licencia de Conducir</h3>     
+<h3>Driver License Info</h3>     
     <div class="form-row">
         <div class="form-field">
-            <label for="usDriversLicense">¿Tienes o has tenido licencia de conducir de EE. UU.?</label>
-            <input type="text" id="usDriversLicense" name="usDriversLicense">
-        </div>    
-        <div class="form-field">
-            <label for="driversLicenseNumber">Número de licencia de conducir</label>
-            <input type="text" id="driversLicenseNumber" name="driversLicenseNumber">
-        </div>   
-    </div>  
-    <div class="form-row">
-        <div class="form-field">
-            <label for="stateOfDriversLicense">Estado de la licencia de conducir</label>
-            <input type="text" id="stateOfDriversLicense" name="stateOfDriversLicense">
+            <label for="pti_holdriver">Do you or did you ever hold a U.S. Driver's License?</label>
+            <div class="radio-options" >
+                <label><input type="radio" name="pti_holdriver" value="Y" > Yes</label>
+                <label><input type="radio" name="pti_holdriver" value="N" > No</label>
+            </div>
         </div>    
         <div class="form-field">
             
+        </div>   
+    </div>  
+    <div class="form-row">
+        <div class="form-field">
+            <label for="pti_license">Driver's License Number</label>
+            <input type="text" id="pti_license" name="pti_license">
+        </div>    
+        <div class="form-field">
+            <label for="pti_slicense">State of Driver's License</label>
+            <input type="text" id="pti_slicense" name="pti_slicense">
         </div>         
     </div>  
-  <h3>Información de Visa</h3>  
+  <h3>Visa Info</h3>  
 
     <div class="form-row">
         <div class="form-field">
-            <label for="usVisaIssued">¿Te han emitido alguna vez una visa de EE. UU.?</label>
-            <input type="text" id="usVisaIssued" name="usVisaIssued">
+            <label for="pti_issuedv">Have you ever been issued a U.S. Visa?</label>
+            <div class="radio-options" >
+                <label><input type="radio" name="pti_issuedv" value="Y" > Yes</label>
+                <label><input type="radio" name="pti_issuedv" value="N" > No</label>
+            </div> 
         </div>    
         <div class="form-field">
-            <label for="dateLastVisaIssued">Fecha de emisión de la última visa (mm/dd/yyyy)</label>
-            <input type="text" id="dateLastVisaIssued" name="dateLastVisaIssued">
+            <label for="pti_dateissued">Date Last Visa Was Issued [mm/dd/yyyy]</label>
+            <input
+                    type="date"
+                    id="pti_dateissued"
+                    name="pti_dateissued"
+                />
         </div>   
     </div>  
     <div class="form-row">
         <div class="form-field">
-            <label for="dateLastVisaExpired">Fecha de vencimiento de la última visa (mm/dd/yyyy)</label>
-            <input type="text" id="dateLastVisaExpired" name="dateLastVisaExpired">
+            <label for="pti_datexpired">Date Last Visa  expired [mm/dd/yyyy]</label>
+            <input
+                    type="date"
+                    id="pti_datexpired"
+                    name="pti_datexpired"
+                />
         </div>    
         <div class="form-field">
-            <label for="visaNumber">Número de visa (8 dígitos, RED)</label>
-            <input type="text" id="visaNumber" name="visaNumber">
+            <label for="pti_rednumber">Visa Number (8 digit RED Number)</label>
+            <input type="text" id="pti_rednumber" name="pti_rednumber">
         </div>   
     </div>  
     <div class="form-row">
         <div class="form-field">
-            <label for="applyingForSameType">¿Estás solicitando el mismo tipo de visa?</label>
-            <input type="text" id="applyingForSameType" name="applyingForSameType">
+            <label for="pti_samevisa">Are you applying for the same type of visa?</label>
+            <div class="radio-options" >
+                <label><input type="radio" name="pti_samevisa" value="Y" > Yes</label>
+                <label><input type="radio" name="pti_samevisa" value="N" > No</label>
+            </div> 
         </div>    
         <div class="form-field">
-            <label for="applyingSameCountry">¿Estás solicitando en el mismo país o ciudad?</label>
-            <input type="text" id="applyingSameCountry" name="applyingSameCountry">
+            <label for="pti_samecnt">Are you applying in the same country or location where the visa above was issued, and is this country or location your place of principal residence?</label>
+            <div class="radio-options" >
+                <label><input type="radio" name="pti_samecnt" value="Y" > Yes</label>
+                <label><input type="radio" name="pti_samecnt" value="N" > No</label>
+            </div> 
         </div>   
     </div>  
     <div class="form-row">
         <div class="form-field">
-            <label for="tenPrinted">¿Has sido "ten-printed"?</label>
-            <input type="text" id="tenPrinted" name="tenPrinted">
+            <label for="pti_tenprinted">Have you been ten-printed?</label>
+            <div class="radio-options" >
+                <label><input type="radio" name="pti_tenprinted" value="Y" > Yes</label>
+                <label><input type="radio" name="pti_tenprinted" value="N" > No</label>
+            </div> 
         </div>    
         <div class="form-field">
-            <label for="visaLostOrStolen">¿Te han perdido o robado una visa?</label>
-            <input type="text" id="visaLostOrStolen" name="visaLostOrStolen">
+            <label for="pti_lost">Have your U.S. visa ever been lost or stolen?</label>
+            <div class="radio-options" >
+                <label><input type="radio" name="pti_lost" value="Y" > Yes</label>
+                <label><input type="radio" name="pti_lost" value="N" > No</label>
+            </div> 
         </div>   
     </div>  
     <div class="form-row">
         <div class="form-field">
-            <label for="yearVisaLostOrStolen">Introduce el año en que la visa fue perdida o robada</label>
-            <input type="text" id="yearVisaLostOrStolen" name="yearVisaLostOrStolen">
+            <label for="pti_qst1">Enter year visa was lost or stolen</label>
+            <input type="text" id="pti_qst1" name="pti_qst1">
         </div>    
         <div class="form-field">
-            <label for="explainLostOrStolen">Explica</label>
-            <input type="text" id="explainLostOrStolen" name="explainLostOrStolen">
+            <label for="pti_rst1">Explain</label>
+            <input type="text" id="pti_rst1" name="pti_rst1">
         </div>   
     </div>
     <div class="form-row">
         <div class="form-field">
-            <label for="visaCancelled">¿Te han cancelado alguna vez una visa de EE. UU.?</label>
-            <input type="text" id="visaCancelled" name="visaCancelled">
+            <label for="pti_qst2">Has your U.S. Visa ever been cancelled or revoked?</label>
+            <div class="radio-options" >
+                <label><input type="radio" name="pti_qst2" value="Y" > Yes</label>
+                <label><input type="radio" name="pti_qst2" value="N" > No</label>
+            </div> 
         </div>    
         <div class="form-field">
-            <label for="explainVisaCancelled">Explica</label>
-            <input type="text" id="explainVisaCancelled" name="explainVisaCancelled">
+            <label for="pti_rst2">Explain</label>
+            <input type="text" id="pti_rst2" name="pti_rst2">
         </div>   
     </div>    
     <div class="form-row">
         <div class="form-field">
-            <label for="visaRefused">¿Te han rechazado alguna vez una visa de EE. UU. o un viaje?</label>
-            <input type="text" id="visaRefused" name="visaRefused">
+            <label for="pti_qst3">Have you ever been refused a U.S. Visa, or been refused admission to the United States, or withdrawn your application for admission at the port of entry?</label>
+            <div class="radio-options" >
+                <label><input type="radio" name="pti_qst3" value="Y" > Yes</label>
+                <label><input type="radio" name="pti_qst3" value="N" > No</label>
+            </div> 
         </div>    
         <div class="form-field">
-            <label for="explainVisaRefused">Explica</label>
-            <input type="text" id="explainVisaRefused" name="explainVisaRefused">
+            <label for="pti_rst3">Explain</label>
+            <input type="text" id="pti_rst3" name="pti_rst3">
         </div>   
     </div>    
     <div class="form-row">
         <div class="form-field">
-            <label for="deniedTravel">¿Te han denegado alguna vez un viaje?</label>
-            <input type="text" id="deniedTravel" name="deniedTravel">
+            <label for="pti_qst4">Have you ever been denied travel authorization by the Department of Homeland Security through the Electronic System for Travel Authorization (ESTA)?</label>
+            <div class="radio-options" >
+                <label><input type="radio" name="pti_qst4" value="Y" > Yes</label>
+                <label><input type="radio" name="pti_qst4" value="N" > No</label>
+            </div> 
         </div>    
         <div class="form-field">
-            <label for="explainDeniedTravel">Explica</label>
-            <input type="text" id="explainDeniedTravel" name="explainDeniedTravel">
+            <label for="pti_rst4">Explain</label>
+            <input type="text" id="pti_rst4" name="pti_rst4">
         </div>   
     </div>    
     <div class="form-row">
         <div class="form-field">
-            <label for="immigrantPetition">¿Alguien ha presentado una petición de inmigrante en tu nombre?</label>
-            <input type="text" id="immigrantPetition" name="immigrantPetition">
+            <label for="pti_qst5">Has anyone ever filed an immigrant petition on your behalf with the United States Citizenship and Immigration Services?</label>
+            <div class="radio-options" >
+                <label><input type="radio" name="pti_qst5" value="Y" > Yes</label>
+                <label><input type="radio" name="pti_qst5" value="N" > No</label>
+            </div> 
         </div>    
         <div class="form-field">
-            <label for="explainImmigrantPetition">Explica</label>
-            <input type="text" id="explainImmigrantPetition" name="explainImmigrantPetition">
+            <label for="pti_rst5">Explain</label>
+            <input type="text" id="pti_rst5" name="pti_rst5">
         </div>   
     </div>       
         <button type="submit">Save and Continue</button>
