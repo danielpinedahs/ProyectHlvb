@@ -1,9 +1,7 @@
 export const prerender = false;
 
 import type { APIRoute } from "astro";
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import { prisma } from '../../lib/prisma';
 
 export const POST: APIRoute = async ({ request, redirect }) => {
   const data = await request.formData();
@@ -37,16 +35,19 @@ export const POST: APIRoute = async ({ request, redirect }) => {
           PS_SEX: ps_sex,
           PS_EMAIL: ps_email,
           PS_DBIRTH: new Date(ps_dbirth),
-
-          //  Relaciones con registros vacíos
-          TRAVEL_INFO: { create: [{}] },
-          ADDRESS: { create: [{}] },
-          PASSPORT: { create: [{}] },
-          FAMILY: { create: [{}] },
-          PRESS_WORK: { create: [{}] },
-          PREV_WORK: { create: [{}] },
-          ADD_WORK: { create: [{}] },
-          SECURITY: { create: [{}] },
+          APPLICATION: {
+            create: [{
+              CLIENT_INFO: { create: [{}] },
+              TRAVEL_INFO: { create: [{}] },
+              ADDRESS: { create: [{}] },
+              PASSPORT: { create: [{}] },
+              FAMILY: { create: [{}] },
+              PRESS_WORK: { create: [{}] },
+              PREV_WORK: { create: [{}] },
+              ADD_WORK: { create: [{}] },
+              SECURITY: { create: [{}] },
+            }],
+          },
         },
       });
     }
@@ -58,7 +59,5 @@ export const POST: APIRoute = async ({ request, redirect }) => {
       JSON.stringify({ message: "Error interno del servidor." }),
       { status: 500 }
     );
-  } finally {
-    await prisma.$disconnect();
   }
 };

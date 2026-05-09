@@ -1,15 +1,13 @@
 ---
 export const prerender = false;
 
-import { PrismaClient } from "@prisma/client";
+import { prisma } from '../lib/prisma';
 
 import "../styles/styleHom.css";
 import Family from "../components/family-info.astro";
 import Passport from "../components/passport-info.astro";
 import Address from "../components/address-info.astro";
 
-
-const prisma = new PrismaClient();
 
 const id = Astro.url.searchParams.get("id");
 
@@ -34,7 +32,6 @@ const aplicaciones = await prisma.aPPLICATION.findMany({
 
 console.log("CLIENTE:", cliente);
 
-await prisma.$disconnect();
 ---
 <script>
     const menu = document.getElementById("menu");

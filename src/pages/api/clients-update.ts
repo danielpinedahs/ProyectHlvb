@@ -22,7 +22,7 @@ export const POST: APIRoute = async ({ request }) => {
 
   try {
     const client = await prisma.cLIENTS.update({
-      where: { ID_CLIENT: Number(id) },
+      where: { ID_CLIENT: BigInt(id as string) },
       data: {
         PS_SURNAME: (data.get("ps_surname") as string)?.toUpperCase(),
         PS_GIVNAM: (data.get("ps_givnam") as string)?.toUpperCase(),

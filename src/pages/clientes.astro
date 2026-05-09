@@ -1,9 +1,7 @@
 ---
-import { PrismaClient } from "@prisma/client";
+import { prisma } from '../lib/prisma';
 
-const prisma = new PrismaClient();
 const clientes = await prisma.cLIENTS.findMany();
-await prisma.$disconnect();
 ---
 
 <html lang="es">
